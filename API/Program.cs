@@ -1,6 +1,14 @@
+global using Domain.DTO;
+global using Application.Interfaces;
+global using Infrastructure.Repositories;
+global using Infrastructure.Data;
+
+using API.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.GetApplicationServices(builder.Configuration, builder.Environment);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

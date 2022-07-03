@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 
+using Domain.Enums;
+
 namespace API.Controllers
 {
 	[Authorize]
@@ -27,6 +29,7 @@ namespace API.Controllers
 		}
 
 		[HttpGet]
+		[Authorize(Roles = "Administrator")]
 		public async Task<IActionResult> GetAllAsync([FromQuery] PaginationFilters filters)
 		{
 			try
@@ -80,6 +83,8 @@ namespace API.Controllers
 		{
 			try
 			{
+				model.Modified = DateTime.Now;
+
 				_repository.UpdateAsync(model);
 				return Ok(await _uow.CommintChangesAsync());
 			}
@@ -90,6 +95,7 @@ namespace API.Controllers
 		}
 
 		[HttpDelete("{id}")]
+		[Authorize(Roles = "Administrator")]
 		public async Task<IActionResult> DeleteAsync([FromRoute] object id)
 		{
 			try

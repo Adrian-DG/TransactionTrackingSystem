@@ -15,13 +15,19 @@ namespace Infrastructure.Data
             serverResponse = new ServerResponse();
             AuthRepository = new AuthRepository(_context);
             Repository = new GenericRepository<T>(_context);
+            AccountRepository = new AccountRepository(_context);
+            TransactionsRepository = new TransactionsRepository(_context);
         }
 
         public IAuthRespository AuthRepository { get; }
 
 		public IGenericRepository<T> Repository { get; }
 
-		public async Task<ServerResponse> CommintChangesAsync()
+		public IAccountRepository AccountRepository { get; }
+
+        public ITransactionsRepository TransactionsRepository { get; }
+
+        public async Task<ServerResponse> CommintChangesAsync()
 		{
             return await _context.SaveChangesAsync() > 0 ? serverResponse.GetResponse(true) : serverResponse.GetResponse(false); 
 		}

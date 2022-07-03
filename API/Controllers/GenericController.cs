@@ -1,6 +1,7 @@
 ﻿using Domain.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 
 namespace API.Controllers
 {
@@ -9,10 +10,20 @@ namespace API.Controllers
 	{
 		private IUnitOfWork<T> _uow;
 		private IGenericRepository<T> _repository;
-		public GenericController(IUnitOfWork<T> uow)
+
+		protected ISpecification<T> _spec;
+		protected Expression<Func<T, bool>> _predicate;
+		protected string _searchTerm;
+		protected bool _status;
+		public GenericController(IUnitOfWork<T> uow, ISpecification<T> specification)
 		{
 			_uow = uow;
 			_repository = _uow.Repository;
+			_spec = specification;
+
+			_searchTerm = "";
+			_status = true;
+			_predicate = _spec.GetFilterPredicate(x => x.Status == _status); // Default predicate
 		}
 
 		[HttpGet]
@@ -20,7 +31,10 @@ namespace API.Controllers
 		{
 			try
 			{
-				PagedData<T> result = await _repository.GetAllAsync(filters);
+				_searchTerm = (filters.SearchTerm is null) ? "" : filters.SearchTerm;
+				_status = filters.Status;
+
+				PagedData<T> result = await _repository.GetAllAsync(filters, _predicate);
 				return new JsonResult(result);
 			}
 			catch (Exception ex)

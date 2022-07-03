@@ -9,6 +9,7 @@ namespace API.Services
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddScoped<IAuthRespository, AuthRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped(typeof(ISpecification<>), typeof(Specification<>));
 
             return services;
         }

@@ -2,6 +2,8 @@ using Application.Interfaces;
 using Domain.DTO;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories
 {
@@ -21,11 +23,12 @@ namespace Infrastructure.Repositories
 			_repo.Remove(entity);
 		}
 
-		public async Task<PagedData<T>> GetAllAsync(PaginationFilters filters)
+		public async Task<PagedData<T>> GetAllAsync(PaginationFilters filters, Expression<Func<T, bool>> predicateWhere)
 		{
 			var results = await _repo
 							.Skip<T>((filters.Page - 1) * filters.Size)
 							.Take<T>(filters.Size)
+							.Where<T>(predicateWhere)					
 							.ToListAsync<T>();
 
 			return new PagedData<T>

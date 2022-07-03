@@ -2,6 +2,7 @@ global using Domain.DTO;
 global using Application.Interfaces;
 global using Infrastructure.Repositories;
 global using Infrastructure.Data;
+global using Domain.Models;
 
 using API.Services;
 

@@ -6,9 +6,9 @@ namespace API.Controllers
 {
 	public class AuthController : BaseController
 	{
-		private IUnitOfWork _uow;
+		private IUnitOfWork<User> _uow;
 		private IConfiguration _configuration;
-		public AuthController(IUnitOfWork unitOfWork, IConfiguration configuration)
+		public AuthController(IUnitOfWork<User> unitOfWork, IConfiguration configuration)
 		{
 			_uow = unitOfWork;
 			_configuration = configuration;

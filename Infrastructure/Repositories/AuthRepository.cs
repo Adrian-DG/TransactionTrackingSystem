@@ -32,15 +32,15 @@ namespace Infrastructure.Repositories
         public async Task<LoginResponse> Login(UserModelDTO model, string secretKey)
         {
             // In case user couldn't be found
-            if (!(await DoesUserExists(model.Username))) return new LoginResponse { Title = "Error", Message = "Check your credentials, user incorrenct", Status = false, Token = null };
+            if (!(await DoesUserExists(model.Username))) return new LoginResponse { Title = "Error", Message = "Check your credentials, user incorrenct", Status = false, UserId = null, Token = null };
 
             var foundUser = await _users.SingleAsync<User>(x => x.Username == model.Username);
 
             var isAuthenticated = _encrypt.VerifyPasswordHash(model.Password, foundUser.PasswordHash, foundUser.PasswordSalt);
 
             return  isAuthenticated
-                    ? new LoginResponse { Title = "User Validated", Message = "This user was authenticated", Status = true, Token = _token.CreateToken(foundUser, secretKey) }
-                    : new LoginResponse { Title = "Error", Message = "User validation failed", Status = false, Token = null };
+                    ? new LoginResponse { Title = "User Validated", Message = "This user was authenticated", Status = true, UserId = foundUser.Id.ToString(),Token = _token.CreateToken(foundUser, secretKey) }
+                    : new LoginResponse { Title = "Error", Message = "User validation failed", Status = false, UserId = null, Token = null };
 
         }
 

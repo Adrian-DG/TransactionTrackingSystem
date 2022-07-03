@@ -6,7 +6,7 @@ namespace API.Services
         {
             services.GetAuthService(configuration);
             services.GetDbService(configuration, environment);
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddScoped<IAuthRespository, AuthRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 

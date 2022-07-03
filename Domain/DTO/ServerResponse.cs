@@ -7,7 +7,7 @@ namespace Domain.DTO
         public bool Status { get; set; }
 
 
-        private ServerResponse GetResponse(bool status)
+        public ServerResponse GetResponse(bool status)
         {
             return status 
             ? new ServerResponse { Title = "Ok", Message = "Process finish successfully", Status = status }

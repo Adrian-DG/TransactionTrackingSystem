@@ -1,8 +1,12 @@
+using Domain.DTO;
+using Domain.Abstractions;
+
 namespace Application.Interfaces
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork<T> where T : ModelMetadata
     {
+        Task<ServerResponse> CommintChangesAsync();
         IAuthRespository AuthRepository { get; }
-        IGenericRepository<T> Repository<T>() where T : class;
+        IGenericRepository<T> Repository { get; }
     }
 }

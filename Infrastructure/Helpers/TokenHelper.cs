@@ -24,7 +24,7 @@ namespace Infrastructure.Helpers
             SecurityTokenDescriptor tokenDecriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMinutes(30),
+                Expires = DateTime.Now.AddHours(8),
                 SigningCredentials = credentials
             };
 

@@ -16,7 +16,8 @@ namespace API.Services
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(simmetricKey),
                 ValidateIssuer = false,
-                ValidateAudience = false
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero
             };
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

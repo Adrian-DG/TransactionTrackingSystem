@@ -5,10 +5,15 @@ global using Infrastructure.Data;
 
 using API.Services;
 
+string CustomPolicy = "customPolicy";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.GetApplicationServices(builder.Configuration, builder.Environment);
+
+builder.Services.AddCors(opt => opt.AddPolicy(CustomPolicy, builder => {
+	builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+}));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -25,7 +30,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
+app.UseCors(CustomPolicy);
 app.UseAuthorization();
 
 app.MapControllers();

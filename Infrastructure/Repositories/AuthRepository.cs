@@ -61,6 +61,8 @@ namespace Infrastructure.Repositories
                 Status = true
             };
 
+            await _users.AddAsync(newUser);
+
             return  await _context.SaveChangesAsync() > 0
                     ? new ServerResponse { Title = "Ok", Message = "User registered successfully!!", Status = true }
                     : new ServerResponse { Title = "Error", Message = "Something went wrong during user registration!!", Status = false };

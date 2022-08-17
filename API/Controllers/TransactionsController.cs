@@ -18,7 +18,7 @@ namespace API.Controllers
 
 		[Authorize(Roles = "Customer")]
 		[HttpGet("{accountId}/all")]
-		public async Task<IActionResult> GetCustomerAccountsAsync([FromQuery] PaginationFilters filters, [FromRoute] string accountId)
+		public async Task<IActionResult> GetAccountTransactionsAsync([FromQuery] PaginationFilters filters, [FromRoute] string accountId)
 		{
 			try
 			{
